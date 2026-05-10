@@ -1,0 +1,12 @@
+PySide6>=6.6
+PyYAML>=6.0
+numpy>=1.24
+matplotlib>=3.8
+opencv-python>=4.8
+
+# Install these from your ROS 2 distribution environment, not pip:
+# rclpy
+# rosbag2_py
+# rosidl_runtime_py
+# sensor_msgs_py
+

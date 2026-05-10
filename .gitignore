@@ -1,2 +1,6 @@
+# 仮想環境
+.venv
+
 sample_data/
 点群データ.txt
+rosbag_data/
