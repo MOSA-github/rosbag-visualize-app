@@ -6,17 +6,24 @@ import StatusBar from './StatusBar';
 function AppShell({
   activeTabId,
   children,
+  hasSelectedRosbag,
   onAddTab,
   onCloseTab,
   onMoveTab,
   onSelectTab,
+  onTimeRangeChange,
   tabs,
+  timeRange,
 }) {
   return (
     <div className="app-shell">
       <Header />
       <div className="app-body">
-        <Sidebar />
+        <Sidebar
+          hasSelectedRosbag={hasSelectedRosbag}
+          onTimeRangeChange={onTimeRangeChange}
+          timeRange={timeRange}
+        />
         <main className="editor" aria-label="Rosbag workspace">
           <EditorTabs
             activeTabId={activeTabId}
