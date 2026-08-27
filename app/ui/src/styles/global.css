@@ -1,0 +1,101 @@
+:root {
+  color: #cccccc;
+  background: #1e1e1e;
+  font-family: "Segoe UI", "Yu Gothic UI", sans-serif;
+  font-synthesis: none;
+}
+
+* { box-sizing: border-box; }
+
+html, body, #root { width: 100%; min-width: 320px; min-height: 100%; margin: 0; }
+
+body { overflow: hidden; }
+
+button { font: inherit; }
+
+.app-shell {
+  display: grid;
+  grid-template-rows: 34px minmax(0, 1fr) 22px;
+  min-height: 100vh;
+  background: #1e1e1e;
+}
+
+.app-header {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  padding: 0 12px;
+  color: #d9d9d9;
+  background: #181818;
+  border-bottom: 1px solid #2a2a2a;
+}
+
+.app-brand { display: flex; align-items: center; gap: 8px; font-size: 11px; font-weight: 600; }
+
+.app-logo {
+  position: relative;
+  width: 18px;
+  height: 18px;
+  overflow: hidden;
+  border-radius: 4px;
+  background: linear-gradient(145deg, #65c9a5, #317ca6);
+}
+
+.app-logo i { position: absolute; width: 3px; height: 3px; border: 1px solid #17353a; border-radius: 50%; }
+.app-logo i:nth-child(1) { top: 11px; left: 3px; }.app-logo i:nth-child(2) { top: 3px; left: 8px; }.app-logo i:nth-child(3) { top: 11px; left: 13px; }
+
+.app-header-title { position: absolute; left: 50%; color: #9d9d9d; font-size: 11px; transform: translateX(-50%); }
+
+.app-body { display: flex; min-height: 0; }
+
+.sidebar {
+  width: 245px;
+  flex: 0 0 245px;
+  color: #cccccc;
+  background: #252526;
+  border-right: 1px solid #1b1b1b;
+}
+
+.sidebar-heading { height: 36px; padding: 12px 18px 0; color: #bbbbbb; font-size: 11px; letter-spacing: .04em; }
+
+.sidebar-section { border-top: 1px solid #343434; }
+
+.sidebar-section-title { display: flex; align-items: center; gap: 4px; height: 29px; padding: 0 10px; color: #d4d4d4; font-size: 10px; font-weight: 650; letter-spacing: .04em; }
+.sidebar-section-title svg { transform: rotate(90deg); }
+
+.empty-source { display: flex; align-items: center; gap: 8px; margin: 0 9px 10px; padding: 9px; color: #8d8d8d; font-size: 10px; border: 1px solid #3d3d3d; border-radius: 3px; background: #2a2a2b; }
+.empty-source svg { color: #76cbae; }
+
+.editor { display: grid; grid-template-rows: 36px minmax(0, 1fr); min-width: 0; flex: 1; }
+
+.editor-tabs { display: flex; align-items: stretch; background: #181818; border-bottom: 1px solid #2b2b2b; }
+
+.editor-tab { display: flex; align-items: center; gap: 7px; width: 150px; padding: 0 10px; color: #c9c9c9; font-size: 11px; border-top: 1px solid #69c9a9; border-right: 1px solid #2d2d2d; background: #1e1e1e; }
+.editor-tab > :last-child { margin-left: auto; color: #8e8e8e; }
+
+.editor-content { min-height: 0; background: #1e1e1e; }
+
+.welcome-page { display: grid; min-height: 100%; place-items: center; padding: 32px; }
+
+.welcome-card { display: grid; justify-items: center; max-width: 420px; text-align: center; }
+
+.welcome-icon { display: grid; width: 54px; height: 54px; margin-bottom: 19px; place-items: center; color: #8ee0c1; border: 1px solid #3e826d; border-radius: 12px; background: linear-gradient(145deg, rgba(90, 192, 154, .2), rgba(48, 92, 102, .18)); }
+
+.welcome-card h1 { margin: 0; color: #f0f0f0; font-size: 25px; font-weight: 600; letter-spacing: -.02em; }
+
+.welcome-card p { margin: 10px 0 21px; color: #a7a7a7; font-size: 12px; line-height: 1.65; }
+
+.button { border: 0; cursor: pointer; }
+
+.open-rosbag-button { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 10px 15px; color: #10261e; font-size: 12px; font-weight: 650; border-radius: 3px; background: #86dabc; box-shadow: 0 4px 14px rgba(54, 151, 119, .18); transition: background .15s ease, transform .15s ease; }
+.open-rosbag-button:hover { background: #a0ebcd; transform: translateY(-1px); }.open-rosbag-button:focus-visible { outline: 2px solid #b5f7de; outline-offset: 3px; }
+
+.status-bar { display: flex; align-items: center; justify-content: space-between; padding: 0 8px; color: #e1f5ee; background: #176b55; font-family: Consolas, monospace; font-size: 9px; }
+
+@media (max-width: 620px) {
+  .sidebar { width: 185px; flex-basis: 185px; }.app-header-title { display: none; }.welcome-page { padding: 24px; }
+}
+
+@media (max-width: 480px) {
+  .sidebar { display: none; }.welcome-card h1 { font-size: 22px; }
+}
