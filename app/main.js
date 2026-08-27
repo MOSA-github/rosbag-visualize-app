@@ -14,7 +14,7 @@ function createWindow() {
     minHeight: 700,
     show: false,
     backgroundColor: '#0b1120',
-    titleBarStyle: 'hidden',
+    // titleBarStyle: 'hidden',
     webPreferences: {
       contextIsolation: true,
       nodeIntegration: false,

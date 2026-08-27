@@ -68,14 +68,19 @@ button { font: inherit; }
 
 .editor { display: grid; grid-template-rows: 36px minmax(0, 1fr); min-width: 0; flex: 1; }
 
-.editor-tabs { display: flex; align-items: stretch; background: #181818; border-bottom: 1px solid #2b2b2b; }
+.editor-tabs { display: flex; align-items: stretch; overflow: hidden; background: #181818; border-bottom: 1px solid #2b2b2b; }
 
-.editor-tab { display: flex; align-items: center; gap: 7px; width: 150px; padding: 0 10px; color: #c9c9c9; font-size: 11px; border-top: 1px solid #69c9a9; border-right: 1px solid #2d2d2d; background: #1e1e1e; }
-.editor-tab > :last-child { margin-left: auto; color: #8e8e8e; }
+.editor-tab-list { display: flex; min-width: 0; flex: 1; overflow-x: auto; }.editor-tab-list::-webkit-scrollbar { height: 0; }
+
+.editor-tab { display: flex; align-items: center; gap: 7px; width: 150px; min-width: 150px; padding: 0 7px 0 10px; color: #aaa; font-size: 11px; border-top: 1px solid transparent; border-right: 1px solid #2d2d2d; background: #252526; cursor: grab; user-select: none; }.editor-tab:hover { color: #e2e2e2; background: #2a2a2b; }.editor-tab:active { cursor: grabbing; }.editor-tab.is-active { color: #f2f2f2; border-top-color: #69c9a9; background: #1e1e1e; }.editor-tab.is-dragging { opacity: .42; }.editor-tab.is-drop-target { box-shadow: inset 2px 0 #89e0c1; }.editor-tab > span { overflow: hidden; flex: 1; text-overflow: ellipsis; white-space: nowrap; }
+
+.tab-close-button, .add-tab-button { display: grid; width: 24px; height: 24px; flex: 0 0 auto; place-items: center; color: #999; border: 0; border-radius: 3px; background: transparent; }.tab-close-button:hover, .add-tab-button:hover { color: #fff; background: #3b3b3b; }.add-tab-button { width: 34px; margin-right: 2px; align-self: center; }
 
 .editor-content { min-height: 0; background: #1e1e1e; }
 
 .welcome-page { display: grid; min-height: 100%; place-items: center; padding: 32px; }
+
+.empty-editor-page { display: grid; min-height: 100%; align-content: center; justify-items: center; gap: 8px; padding: 32px; color: #a3a3a3; text-align: center; }.empty-editor-page strong { color: #d2d2d2; font-size: 14px; font-weight: 500; }.empty-editor-page span { font-size: 11px; }
 
 .welcome-card { display: grid; justify-items: center; max-width: 420px; text-align: center; }
 
