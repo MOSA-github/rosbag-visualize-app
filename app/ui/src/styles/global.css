@@ -92,6 +92,12 @@ button { font: inherit; }
 .time-range-input:focus-visible { border-color: #76cbae; box-shadow: 0 0 0 1px rgba(118, 203, 174, .25); }
 .time-range-separator { padding-bottom: 6px; color: #8d8d8d; font-size: 11px; }
 
+.playback-speed-controls { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 4px; padding: 0 10px 12px; }
+.playback-speed-button { min-width: 0; padding: 6px 1px; color: #b7b7b7; font-size: 9px; border: 1px solid #454545; border-radius: 3px; background: #1e1e1e; cursor: pointer; }
+.playback-speed-button:hover { color: #f0f0f0; border-color: #626262; background: #2d2d2d; }
+.playback-speed-button.is-selected { color: #163b2d; font-weight: 650; border-color: #8ee0c1; background: #86dabc; }
+.playback-speed-button:focus-visible { outline: 2px solid #b5f7de; outline-offset: 2px; }
+
 .editor { display: grid; grid-template-rows: 36px minmax(0, 1fr); min-width: 0; flex: 1; }
 
 .editor-tabs { display: flex; align-items: stretch; overflow: hidden; background: #181818; border-bottom: 1px solid #2b2b2b; }

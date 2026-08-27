@@ -1,9 +1,13 @@
 import Icon from '../ui/Icon';
 
+const playbackSpeeds = [0.25, 0.5, 1, 2, 4];
+
 function Sidebar({
   hasSelectedRosbag,
+  onPlaybackSpeedChange,
   onTopicToggle,
   onTimeRangeChange,
+  playbackSpeed,
   selectedTopicIds,
   timeRange,
   topics,
@@ -28,7 +32,7 @@ function Sidebar({
           </div>
         )}
       </section>
-      {/* rosbag未選択時はトピック一覧と時間帯指定を描画しない。 */}
+      {/* rosbag未選択時は読み込み後の操作UIを描画しない。 */}
       {hasSelectedRosbag && (
         <>
           <section className="sidebar-section topic-section" aria-labelledby="topic-list-heading">
@@ -97,6 +101,29 @@ function Sidebar({
                   onChange={(event) => onTimeRangeChange('end', event.target.value)}
                 />
               </label>
+            </div>
+          </section>
+          <section className="sidebar-section playback-speed-section" aria-labelledby="playback-speed-heading">
+            <div id="playback-speed-heading" className="sidebar-section-title">
+              <Icon name="chevron" size={13} />
+              再生速度
+            </div>
+            <div className="playback-speed-controls" aria-label="再生速度を選択">
+              {playbackSpeeds.map((speed) => {
+                const isSelected = playbackSpeed === speed;
+
+                return (
+                  <button
+                    key={speed}
+                    type="button"
+                    className={`playback-speed-button${isSelected ? ' is-selected' : ''}`}
+                    aria-pressed={isSelected}
+                    onClick={() => onPlaybackSpeedChange(speed)}
+                  >
+                    {speed}×
+                  </button>
+                );
+              })}
             </div>
           </section>
         </>

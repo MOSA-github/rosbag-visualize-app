@@ -9,6 +9,8 @@ const initialTimeRange = { start: 0, end: 12 };
 
 function App() {
   const [hasSelectedRosbag, setHasSelectedRosbag] = useState(false);
+  // 将来の再生処理へ渡す速度を保持する。
+  const [playbackSpeed, setPlaybackSpeed] = useState(1);
   const [selectedTopicIds, setSelectedTopicIds] = useState([]);
   const [timeRange, setTimeRange] = useState(initialTimeRange);
   const {
@@ -61,9 +63,11 @@ function App() {
       onAddTab={addTab}
       onCloseTab={closeTab}
       onMoveTab={moveTab}
+      onPlaybackSpeedChange={setPlaybackSpeed}
       onSelectTab={selectTab}
       onTopicToggle={toggleTopicVisibility}
       onTimeRangeChange={updateTimeRange}
+      playbackSpeed={playbackSpeed}
       selectedTopicIds={selectedTopicIds}
       tabs={tabs}
       timeRange={timeRange}

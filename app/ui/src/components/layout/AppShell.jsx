@@ -10,11 +10,13 @@ function AppShell({
   onAddTab,
   onCloseTab,
   onMoveTab,
+  onPlaybackSpeedChange,
   onSelectTab,
   onTopicToggle,
   onTimeRangeChange,
   selectedTopicIds,
   tabs,
+  playbackSpeed,
   timeRange,
   topics,
 }) {
@@ -24,8 +26,10 @@ function AppShell({
       <div className="app-body">
         <Sidebar
           hasSelectedRosbag={hasSelectedRosbag}
+          onPlaybackSpeedChange={onPlaybackSpeedChange}
           onTopicToggle={onTopicToggle}
           onTimeRangeChange={onTimeRangeChange}
+          playbackSpeed={playbackSpeed}
           selectedTopicIds={selectedTopicIds}
           timeRange={timeRange}
           topics={topics}
