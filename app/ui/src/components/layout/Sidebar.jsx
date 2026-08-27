@@ -2,6 +2,10 @@ import Icon from '../ui/Icon';
 
 const playbackSpeeds = [0.25, 0.5, 1, 2, 4];
 
+function formatPlaybackSpeed(speed) {
+  return `${Number(speed.toFixed(2))}×`;
+}
+
 function Sidebar({
   hasSelectedRosbag,
   onPlaybackSpeedChange,
@@ -108,22 +112,45 @@ function Sidebar({
               <Icon name="chevron" size={13} />
               再生速度
             </div>
-            <div className="playback-speed-controls" aria-label="再生速度を選択">
-              {playbackSpeeds.map((speed) => {
-                const isSelected = playbackSpeed === speed;
+            <div className="playback-speed-controls">
+              <div className="playback-speed-slider-header">
+                <label htmlFor="playback-speed-slider">細かく調整</label>
+                <output className="playback-speed-value" htmlFor="playback-speed-slider">
+                  {formatPlaybackSpeed(playbackSpeed)}
+                </output>
+              </div>
+              <input
+                id="playback-speed-slider"
+                className="playback-speed-slider"
+                type="range"
+                min="0.25"
+                max="4"
+                step="0.05"
+                value={playbackSpeed}
+                aria-valuetext={`${formatPlaybackSpeed(playbackSpeed)}倍速`}
+                onChange={(event) => onPlaybackSpeedChange(Number(event.target.value))}
+              />
+              <div className="playback-speed-limits" aria-hidden="true">
+                <span>0.25×</span>
+                <span>4×</span>
+              </div>
+              <div className="playback-speed-presets" aria-label="再生速度プリセットを選択">
+                {playbackSpeeds.map((speed) => {
+                  const isSelected = playbackSpeed === speed;
 
-                return (
-                  <button
-                    key={speed}
-                    type="button"
-                    className={`playback-speed-button${isSelected ? ' is-selected' : ''}`}
-                    aria-pressed={isSelected}
-                    onClick={() => onPlaybackSpeedChange(speed)}
-                  >
-                    {speed}×
-                  </button>
-                );
-              })}
+                  return (
+                    <button
+                      key={speed}
+                      type="button"
+                      className={`playback-speed-button${isSelected ? ' is-selected' : ''}`}
+                      aria-pressed={isSelected}
+                      onClick={() => onPlaybackSpeedChange(speed)}
+                    >
+                      {speed}×
+                    </button>
+                  );
+                })}
+              </div>
             </div>
           </section>
         </>
