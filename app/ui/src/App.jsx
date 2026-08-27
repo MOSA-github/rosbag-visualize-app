@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import AppShell from './components/layout/AppShell';
 import { useEditorTabs } from './features/editorTabs/model/useEditorTabs';
+import { previewTopics } from './features/rosbag/model/previewTopics';
 import EmptyEditorPage from './pages/EmptyEditorPage/EmptyEditorPage';
 import WelcomePage from './pages/WelcomePage/WelcomePage';
 
@@ -8,6 +9,7 @@ const initialTimeRange = { start: 0, end: 12 };
 
 function App() {
   const [hasSelectedRosbag, setHasSelectedRosbag] = useState(false);
+  const [selectedTopicIds, setSelectedTopicIds] = useState([]);
   const [timeRange, setTimeRange] = useState(initialTimeRange);
   const {
     activeTabId,
@@ -19,10 +21,21 @@ function App() {
   } = useEditorTabs();
 
   const activeTab = tabs.find((tab) => tab.id === activeTabId);
+  const selectedTopics = previewTopics.filter((topic) => selectedTopicIds.includes(topic.id));
 
   function toggleRosbagSelection() {
     // UI確認用に、選択状態だけを切り替える。
     setHasSelectedRosbag((isSelected) => !isSelected);
+    setSelectedTopicIds([]);
+  }
+
+  function toggleTopicVisibility(topicId) {
+    // クリックごとに可視化対象へ追加・削除する。
+    setSelectedTopicIds((currentTopicIds) => (
+      currentTopicIds.includes(topicId)
+        ? currentTopicIds.filter((currentTopicId) => currentTopicId !== topicId)
+        : [...currentTopicIds, topicId]
+    ));
   }
 
   function updateTimeRange(edge, rawValue) {
@@ -49,14 +62,18 @@ function App() {
       onCloseTab={closeTab}
       onMoveTab={moveTab}
       onSelectTab={selectTab}
+      onTopicToggle={toggleTopicVisibility}
       onTimeRangeChange={updateTimeRange}
+      selectedTopicIds={selectedTopicIds}
       tabs={tabs}
       timeRange={timeRange}
+      topics={previewTopics}
     >
       {activeTab ? (
         <WelcomePage
           hasSelectedRosbag={hasSelectedRosbag}
           onSelectRosbag={toggleRosbagSelection}
+          selectedTopics={selectedTopics}
         />
       ) : <EmptyEditorPage />}
     </AppShell>

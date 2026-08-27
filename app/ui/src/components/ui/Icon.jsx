@@ -13,6 +13,7 @@ function Icon({ name, size = 18 }) {
 
   const icons = {
     chevron: <path d="m9 18 6-6-6-6" />,
+    check: <path d="m5 12 4.2 4.2L19 6.5" />,
     close: <path d="m6 6 12 12M18 6 6 18" />,
     plus: <path d="M12 5v14M5 12h14" />,
     database: <><ellipse cx="12" cy="5" rx="7" ry="3" /><path d="M5 5v7c0 1.7 3.1 3 7 3s7-1.3 7-3V5" /><path d="M5 12v7c0 1.7 3.1 3 7 3s7-1.3 7-3v-7" /></>,

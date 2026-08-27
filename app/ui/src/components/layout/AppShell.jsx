@@ -11,9 +11,12 @@ function AppShell({
   onCloseTab,
   onMoveTab,
   onSelectTab,
+  onTopicToggle,
   onTimeRangeChange,
+  selectedTopicIds,
   tabs,
   timeRange,
+  topics,
 }) {
   return (
     <div className="app-shell">
@@ -21,8 +24,11 @@ function AppShell({
       <div className="app-body">
         <Sidebar
           hasSelectedRosbag={hasSelectedRosbag}
+          onTopicToggle={onTopicToggle}
           onTimeRangeChange={onTimeRangeChange}
+          selectedTopicIds={selectedTopicIds}
           timeRange={timeRange}
+          topics={topics}
         />
         <main className="editor" aria-label="Rosbag workspace">
           <EditorTabs
