@@ -9,8 +9,9 @@ const initialTimeRange = { start: 0, end: 12 };
 
 function App() {
   const [hasSelectedRosbag, setHasSelectedRosbag] = useState(false);
-  // 将来の再生処理へ渡す速度を保持する。
+  const [fileSelectionError, setFileSelectionError] = useState(null);
   const [playbackSpeed, setPlaybackSpeed] = useState(1);
+  const [selectedRosbagFile, setSelectedRosbagFile] = useState(null);
   const [selectedTopicIds, setSelectedTopicIds] = useState([]);
   const [timeRange, setTimeRange] = useState(initialTimeRange);
   const {
@@ -25,14 +26,30 @@ function App() {
   const activeTab = tabs.find((tab) => tab.id === activeTabId);
   const selectedTopics = previewTopics.filter((topic) => selectedTopicIds.includes(topic.id));
 
-  function toggleRosbagSelection() {
-    // UI確認用に、選択状態だけを切り替える。
-    setHasSelectedRosbag((isSelected) => !isSelected);
-    setSelectedTopicIds([]);
+  async function selectRosbagFile() {
+    if (!window.rosbagApi?.selectFile) {
+      setFileSelectionError('Electron のファイル選択機能を利用できません。');
+      return;
+    }
+
+    try {
+      setFileSelectionError(null);
+      const selectedFile = await window.rosbagApi.selectFile();
+
+      if (!selectedFile?.path || !selectedFile.name) {
+        return;
+      }
+
+      setSelectedRosbagFile(selectedFile);
+      setHasSelectedRosbag(true);
+      setSelectedTopicIds([]);
+    } catch (error) {
+      console.error('Failed to select rosbag file.', error);
+      setFileSelectionError('ファイルを選択できませんでした。もう一度お試しください。');
+    }
   }
 
   function toggleTopicVisibility(topicId) {
-    // クリックごとに可視化対象へ追加・削除する。
     setSelectedTopicIds((currentTopicIds) => (
       currentTopicIds.includes(topicId)
         ? currentTopicIds.filter((currentTopicId) => currentTopicId !== topicId)
@@ -75,8 +92,10 @@ function App() {
     >
       {activeTab ? (
         <WelcomePage
+          fileSelectionError={fileSelectionError}
           hasSelectedRosbag={hasSelectedRosbag}
-          onSelectRosbag={toggleRosbagSelection}
+          onSelectRosbag={selectRosbagFile}
+          selectedRosbagFile={selectedRosbagFile}
           selectedTopics={selectedTopics}
         />
       ) : <EmptyEditorPage />}

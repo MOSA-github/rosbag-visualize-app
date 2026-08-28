@@ -30,3 +30,16 @@ platform(OSごとに分けないと行けない処理を記述)
 ファイルを選ぶとそのトピックを選択するかのダイアログが出る
 選んだら左端にサイドバー, サイドバーから右端にかけて動画やグラフ
 サイドバーの中には表示区間の選択や再生速度の選択, ほかのトピックを追加するための選んだrosbagデータのトピック一覧などを表示
+
+loadRosbagFile
+    openFile
+    selectTopic
+    desiriliseData
+    selectData
+    arrangeData
+
+openFile
+    openDialog
+    selectFile
+    validateFile
+

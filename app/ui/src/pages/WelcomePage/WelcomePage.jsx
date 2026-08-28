@@ -1,7 +1,13 @@
 import Icon from '../../components/ui/Icon';
 import OpenRosbagButton from '../../features/rosbag/components/OpenRosbagButton';
 
-function WelcomePage({ hasSelectedRosbag, onSelectRosbag, selectedTopics }) {
+function WelcomePage({
+  fileSelectionError,
+  hasSelectedRosbag,
+  onSelectRosbag,
+  selectedRosbagFile,
+  selectedTopics,
+}) {
   return (
     <section className="welcome-page">
       <div className="welcome-card">
@@ -9,6 +15,12 @@ function WelcomePage({ hasSelectedRosbag, onSelectRosbag, selectedTopics }) {
         <h1>ROSBag Visualizer</h1>
         <p>rosbag ファイルを選択して、記録データの可視化を始めます。</p>
         <OpenRosbagButton isSelected={hasSelectedRosbag} onSelect={onSelectRosbag} />
+        {selectedRosbagFile && (
+          <p className="selected-rosbag-file" title={selectedRosbagFile.path}>
+            選択中: {selectedRosbagFile.name}
+          </p>
+        )}
+        {fileSelectionError && <p className="file-selection-error" role="alert">{fileSelectionError}</p>}
         {hasSelectedRosbag && (
           <section className="visualization-preview" aria-labelledby="visualization-preview-heading">
             <div className="visualization-preview-header">
@@ -24,7 +36,7 @@ function WelcomePage({ hasSelectedRosbag, onSelectRosbag, selectedTopics }) {
                       <strong title={topic.name}>{topic.name}</strong>
                       <span title={topic.type}>{topic.type}</span>
                     </span>
-                    <span className="visualization-topic-state">準備中</span>
+                    <span className="visualization-topic-state">表示中</span>
                   </li>
                 ))}
               </ul>

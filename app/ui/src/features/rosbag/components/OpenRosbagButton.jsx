@@ -3,9 +3,13 @@ import Icon from '../../../components/ui/Icon';
 
 function OpenRosbagButton({ isSelected, onSelect }) {
   return (
-    <Button className="open-rosbag-button" aria-pressed={isSelected} onClick={onSelect}>
-      <Icon name={isSelected ? 'close' : 'folder'} size={18} />
-      {isSelected ? 'rosbag ファイルを閉じる' : 'rosbag ファイルを選択'}
+    <Button
+      className="open-rosbag-button"
+      aria-label={isSelected ? '別の rosbag ファイルを選択' : 'rosbag ファイルを選択'}
+      onClick={onSelect}
+    >
+      <Icon name="folder" size={18} />
+      {isSelected ? '別の rosbag ファイルを選択' : 'rosbag ファイルを選択'}
     </Button>
   );
 }

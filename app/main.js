@@ -1,5 +1,6 @@
 const path = require('node:path');
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, ipcMain } = require('electron');
+const { selectRosbagFile } = require('./application/selectRosbagFile');
 
 /**
  * Create the initial application window.
@@ -18,6 +19,7 @@ function createWindow() {
     webPreferences: {
       contextIsolation: true,
       nodeIntegration: false,
+      preload: path.join(__dirname, 'preload.js'),
       sandbox: true,
     },
   });
@@ -35,7 +37,15 @@ function createWindow() {
   }
 }
 
+function registerIpcHandlers() {
+  ipcMain.handle('rosbag:select-file', async (event) => {
+    const parentWindow = BrowserWindow.fromWebContents(event.sender);
+    return selectRosbagFile(parentWindow);
+  });
+}
+
 app.whenReady().then(() => {
+  registerIpcHandlers();
   createWindow();
 
   app.on('activate', () => {

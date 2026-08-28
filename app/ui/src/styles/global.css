@@ -150,6 +150,9 @@ button { font: inherit; }
 
 .welcome-card p { margin: 10px 0 21px; color: #a7a7a7; font-size: 12px; line-height: 1.65; }
 
+.selected-rosbag-file { max-width: 100%; margin: 11px 0 0 !important; padding: 4px 8px; overflow: hidden; color: #9edcc7 !important; font-family: Consolas, monospace; font-size: 10px !important; text-overflow: ellipsis; white-space: nowrap; border-radius: 3px; background: rgba(88, 167, 136, .14); }
+.file-selection-error { margin: 11px 0 0 !important; color: #f2a5a5 !important; font-size: 10px !important; }
+
 .visualization-preview { width: 100%; margin-top: 22px; padding: 11px; color: #c8c8c8; text-align: left; border: 1px solid #3b3b3b; border-radius: 4px; background: #242425; }
 .visualization-preview-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; color: #dedede; font-size: 11px; font-weight: 600; }
 .visualization-count { display: grid; min-width: 18px; height: 18px; padding: 0 5px; place-items: center; color: #153d30; font-size: 10px; border-radius: 9px; background: #86dabc; }
