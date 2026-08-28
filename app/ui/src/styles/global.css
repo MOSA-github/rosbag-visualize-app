@@ -16,7 +16,8 @@ button { font: inherit; }
 .app-shell {
   display: grid;
   grid-template-rows: 34px minmax(0, 1fr) 22px;
-  min-height: 100vh;
+  height: 100vh;
+  min-height: 0;
   background: #1e1e1e;
 }
 
@@ -46,23 +47,38 @@ button { font: inherit; }
 
 .app-header-title { position: absolute; left: 50%; color: #9d9d9d; font-size: 11px; transform: translateX(-50%); }
 
-.app-body { display: flex; min-height: 0; }
+.app-body { display: flex; min-height: 0; overflow: hidden; }
+.app-body.is-resizing, .app-body.is-resizing * { cursor: col-resize !important; user-select: none; }
 
 .sidebar {
-  width: 245px;
-  flex: 0 0 245px;
+  width: var(--sidebar-width, 245px);
+  min-width: 0;
+  flex: 0 0 var(--sidebar-width, 245px);
+  min-height: 0;
+  overflow-x: hidden;
   overflow-y: auto;
+  overscroll-behavior: contain;
   color: #cccccc;
   background: #252526;
   border-right: 1px solid #1b1b1b;
+  scrollbar-color: #515151 #252526;
 }
+
+.sidebar-resize-handle { position: relative; width: 6px; flex: 0 0 6px; cursor: col-resize; touch-action: none; background: #1e1e1e; outline: 0; }
+.sidebar-resize-handle::after { position: absolute; top: 0; bottom: 0; left: 2px; width: 1px; content: ''; background: #2d2d2d; transition: background .15s ease, width .15s ease; }
+.sidebar-resize-handle:hover::after, .sidebar-resize-handle.is-resizing::after { left: 1px; width: 3px; background: #76cbae; }
+.sidebar-resize-handle:focus-visible { outline: 2px solid #b5f7de; outline-offset: -2px; }
 
 .sidebar-heading { height: 36px; padding: 12px 18px 0; color: #bbbbbb; font-size: 11px; letter-spacing: .04em; }
 
 .sidebar-section { border-top: 1px solid #343434; }
 
-.sidebar-section-title { display: flex; align-items: center; gap: 4px; height: 29px; padding: 0 10px; color: #d4d4d4; font-size: 10px; font-weight: 650; letter-spacing: .04em; }
-.sidebar-section-title svg { transform: rotate(90deg); }
+.sidebar-section-heading { margin: 0; }
+.sidebar-section-toggle { display: flex; width: 100%; min-height: 29px; align-items: center; gap: 4px; padding: 0 10px; color: #d4d4d4; font-size: 10px; font-weight: 650; letter-spacing: .04em; text-align: left; border: 0; background: transparent; cursor: pointer; }
+.sidebar-section-toggle:hover { color: #f0f0f0; background: #2c2c2d; }
+.sidebar-section-toggle:focus-visible { outline: 2px solid #8ee0c1; outline-offset: -2px; }
+.sidebar-section-chevron { display: grid; flex: 0 0 auto; transition: transform .15s ease; }
+.sidebar-section-toggle[aria-expanded="true"] .sidebar-section-chevron { transform: rotate(90deg); }
 
 .empty-source { display: flex; align-items: center; gap: 8px; margin: 0 9px 10px; padding: 9px; color: #8d8d8d; font-size: 10px; border: 1px solid #3d3d3d; border-radius: 3px; background: #2a2a2b; }
 .empty-source svg { color: #76cbae; }
@@ -107,10 +123,16 @@ button { font: inherit; }
 .editor { display: grid; grid-template-rows: 36px minmax(0, 1fr); min-width: 0; flex: 1; }
 
 .editor-tabs { display: flex; align-items: stretch; overflow: hidden; background: #181818; border-bottom: 1px solid #2b2b2b; }
+.editor-tabs.is-resizing, .editor-tabs.is-resizing * { cursor: col-resize !important; user-select: none; }
 
 .editor-tab-list { display: flex; min-width: 0; flex: 1; overflow-x: auto; }.editor-tab-list::-webkit-scrollbar { height: 0; }
 
-.editor-tab { display: flex; align-items: center; gap: 7px; width: 150px; min-width: 150px; padding: 0 7px 0 10px; color: #aaa; font-size: 11px; border-top: 1px solid transparent; border-right: 1px solid #2d2d2d; background: #252526; cursor: grab; user-select: none; }.editor-tab:hover { color: #e2e2e2; background: #2a2a2b; }.editor-tab:active { cursor: grabbing; }.editor-tab.is-active { color: #f2f2f2; border-top-color: #69c9a9; background: #1e1e1e; }.editor-tab.is-dragging { opacity: .42; }.editor-tab.is-drop-target { box-shadow: inset 2px 0 #89e0c1; }.editor-tab > span { overflow: hidden; flex: 1; text-overflow: ellipsis; white-space: nowrap; }
+.editor-tab-wrapper { position: relative; width: var(--tab-width, 150px); min-width: var(--tab-width, 150px); flex: 0 0 var(--tab-width, 150px); }
+.editor-tab { display: flex; width: 100%; min-width: 0; align-items: center; gap: 7px; padding: 0 7px 0 10px; color: #aaa; font-size: 11px; border-top: 1px solid transparent; border-right: 1px solid #2d2d2d; background: #252526; cursor: grab; user-select: none; }.editor-tab:hover { color: #e2e2e2; background: #2a2a2b; }.editor-tab:active { cursor: grabbing; }.editor-tab.is-active { color: #f2f2f2; border-top-color: #69c9a9; background: #1e1e1e; }.editor-tab.is-dragging { opacity: .42; }.editor-tab.is-drop-target { box-shadow: inset 2px 0 #89e0c1; }.editor-tab > span { overflow: hidden; flex: 1; text-overflow: ellipsis; white-space: nowrap; }
+.tab-resize-handle { position: absolute; z-index: 2; top: 0; right: -3px; width: 6px; height: 100%; cursor: col-resize; touch-action: none; outline: 0; }
+.tab-resize-handle::after { position: absolute; top: 0; bottom: 0; left: 2px; width: 1px; content: ''; background: transparent; transition: background .15s ease, width .15s ease; }
+.tab-resize-handle:hover::after, .tab-resize-handle.is-resizing::after { left: 1px; width: 3px; background: #89e0c1; }
+.tab-resize-handle:focus-visible { outline: 2px solid #b5f7de; outline-offset: -2px; }
 
 .tab-close-button, .add-tab-button { display: grid; width: 24px; height: 24px; flex: 0 0 auto; place-items: center; color: #999; border: 0; border-radius: 3px; background: transparent; }.tab-close-button:hover, .add-tab-button:hover { color: #fff; background: #3b3b3b; }.add-tab-button { width: 34px; margin-right: 2px; align-self: center; }
 
@@ -148,10 +170,14 @@ button { font: inherit; }
 
 .status-bar { display: flex; align-items: center; justify-content: space-between; padding: 0 8px; color: #e1f5ee; background: #176b55; font-family: Consolas, monospace; font-size: 9px; }
 
+@media (prefers-reduced-motion: reduce) {
+  .sidebar-section-chevron, .sidebar-resize-handle::after, .tab-resize-handle::after { transition: none; }
+}
+
 @media (max-width: 620px) {
-  .sidebar { width: 185px; flex-basis: 185px; }.app-header-title { display: none; }.welcome-page { padding: 24px; }
+  .sidebar { width: 185px; flex-basis: 185px; }.sidebar-resize-handle { display: none; }.app-header-title { display: none; }.welcome-page { padding: 24px; }
 }
 
 @media (max-width: 480px) {
-  .sidebar { display: none; }.welcome-card h1 { font-size: 22px; }
+  .sidebar { display: none; }.sidebar-resize-handle { display: none; }.welcome-card h1 { font-size: 22px; }
 }

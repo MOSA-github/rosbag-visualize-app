@@ -1,9 +1,45 @@
+import { useState } from 'react';
 import Icon from '../ui/Icon';
 
 const playbackSpeeds = [0.25, 0.5, 1, 2, 4];
+const initialExpandedSections = {
+  rosbag: true,
+  topics: true,
+  timeRange: true,
+  playbackSpeed: true,
+};
 
 function formatPlaybackSpeed(speed) {
   return `${Number(speed.toFixed(2))}×`;
+}
+
+function SidebarSection({ children, className = '', count, id, isExpanded, label, onToggle }) {
+  const headingId = `${id}-heading`;
+  const panelId = `${id}-panel`;
+
+  return (
+    <section className={`sidebar-section ${className}`.trim()} aria-labelledby={headingId}>
+      <h2 className="sidebar-section-heading">
+        <button
+          id={headingId}
+          type="button"
+          className="sidebar-section-toggle"
+          aria-controls={panelId}
+          aria-expanded={isExpanded}
+          onClick={onToggle}
+        >
+          <span className="sidebar-section-chevron" aria-hidden="true">
+            <Icon name="chevron" size={13} />
+          </span>
+          <span>{label}</span>
+          {count !== undefined && <span className="topic-count">{count}</span>}
+        </button>
+      </h2>
+      <div id={panelId} className="sidebar-section-content" hidden={!isExpanded}>
+        {children}
+      </div>
+    </section>
+  );
 }
 
 function Sidebar({
@@ -16,14 +52,24 @@ function Sidebar({
   timeRange,
   topics,
 }) {
+  const [expandedSections, setExpandedSections] = useState(initialExpandedSections);
+
+  function toggleSection(sectionId) {
+    setExpandedSections((currentSections) => ({
+      ...currentSections,
+      [sectionId]: !currentSections[sectionId],
+    }));
+  }
+
   return (
     <aside className="sidebar" aria-label="Explorer">
       <div className="sidebar-heading">EXPLORER</div>
-      <section className="sidebar-section">
-        <div className="sidebar-section-title">
-          <Icon name="chevron" size={13} />
-          ROSBAG
-        </div>
+      <SidebarSection
+        id="rosbag"
+        isExpanded={expandedSections.rosbag}
+        label="ROSBAG"
+        onToggle={() => toggleSection('rosbag')}
+      >
         {hasSelectedRosbag ? (
           <div className="selected-source">
             <Icon name="database" size={18} />
@@ -35,16 +81,18 @@ function Sidebar({
             <span>ファイルが選択されていません</span>
           </div>
         )}
-      </section>
+      </SidebarSection>
       {/* rosbag未選択時は読み込み後の操作UIを描画しない。 */}
       {hasSelectedRosbag && (
         <>
-          <section className="sidebar-section topic-section" aria-labelledby="topic-list-heading">
-            <div className="sidebar-section-title">
-              <Icon name="chevron" size={13} />
-              <span id="topic-list-heading">TOPICS</span>
-              <span className="topic-count">{topics.length}</span>
-            </div>
+          <SidebarSection
+            className="topic-section"
+            count={topics.length}
+            id="topics"
+            isExpanded={expandedSections.topics}
+            label="TOPICS"
+            onToggle={() => toggleSection('topics')}
+          >
             <ul className="topic-list" aria-label="rosbag トピック一覧">
               {topics.map((topic) => {
                 const isSelected = selectedTopicIds.includes(topic.id);
@@ -71,12 +119,14 @@ function Sidebar({
                 );
               })}
             </ul>
-          </section>
-          <section className="sidebar-section time-range-section" aria-labelledby="time-range-heading">
-            <div id="time-range-heading" className="sidebar-section-title">
-              <Icon name="chevron" size={13} />
-              表示時間帯
-            </div>
+          </SidebarSection>
+          <SidebarSection
+            className="time-range-section"
+            id="time-range"
+            isExpanded={expandedSections.timeRange}
+            label="表示時間帯"
+            onToggle={() => toggleSection('timeRange')}
+          >
             <div className="time-range-controls">
               <p className="time-range-hint">rosbag 開始からの相対時間（秒）</p>
               <label className="time-range-field" htmlFor="time-range-start">
@@ -106,12 +156,14 @@ function Sidebar({
                 />
               </label>
             </div>
-          </section>
-          <section className="sidebar-section playback-speed-section" aria-labelledby="playback-speed-heading">
-            <div id="playback-speed-heading" className="sidebar-section-title">
-              <Icon name="chevron" size={13} />
-              再生速度
-            </div>
+          </SidebarSection>
+          <SidebarSection
+            className="playback-speed-section"
+            id="playback-speed"
+            isExpanded={expandedSections.playbackSpeed}
+            label="再生速度"
+            onToggle={() => toggleSection('playbackSpeed')}
+          >
             <div className="playback-speed-controls">
               <div className="playback-speed-slider-header">
                 <label htmlFor="playback-speed-slider">細かく調整</label>
@@ -152,7 +204,7 @@ function Sidebar({
                 })}
               </div>
             </div>
-          </section>
+          </SidebarSection>
         </>
       )}
     </aside>
