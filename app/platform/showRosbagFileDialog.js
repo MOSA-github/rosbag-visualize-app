@@ -1,7 +1,7 @@
 const { dialog } = require('electron');
 
 const rosbagFileFilters = [
-  { name: 'rosbag files', extensions: ['db3', 'mcap', 'bag'] },
+  { name: 'rosbag files', extensions: ['db3'] },
   { name: 'All files', extensions: ['*'] },
 ];
 
