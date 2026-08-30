@@ -179,11 +179,7 @@ button { font: inherit; }
 .topic-selection-dialog-header h2 { margin: 0; color: #f0f0f0; font-size: 18px; font-weight: 600; }
 .topic-selection-dialog-header p:not(.topic-selection-dialog-eyebrow) { max-width: 550px; margin: 7px 0 0; overflow: hidden; color: #a7a7a7; font-size: 11px; line-height: 1.5; text-overflow: ellipsis; white-space: nowrap; }
 .topic-selection-close-button { display: grid; width: 28px; height: 28px; flex: 0 0 auto; place-items: center; color: #b9b9b9; border: 0; border-radius: 3px; background: transparent; cursor: pointer; }.topic-selection-close-button:hover { color: #fff; background: #3a3a3a; }
-.topic-selection-dialog-body { display: grid; min-height: 0; gap: 10px; padding: 14px 22px; }
-.topic-selection-dialog-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 12px; color: #aaa; font-size: 10px; }
-.topic-selection-count { color: #a9dac7; font-family: Consolas, monospace; }
-.topic-selection-bulk-actions { display: flex; gap: 5px; }
-.topic-selection-text-button { padding: 3px 5px; color: #9edcc7; font-size: 10px; border: 0; border-radius: 3px; background: transparent; cursor: pointer; }.topic-selection-text-button:hover:not(:disabled) { color: #d8f4e9; background: rgba(118, 203, 174, .14); }.topic-selection-text-button:disabled { color: #646464; cursor: default; }
+.topic-selection-dialog-body { display: grid; min-height: 0; padding: 14px 22px; }
 .topic-selection-list { max-height: min(360px, 48vh); margin: 0; padding: 0; overflow-y: auto; list-style: none; border: 1px solid #3b3b3b; border-radius: 4px; background: #1e1e1e; scrollbar-color: #515151 #1e1e1e; }
 .topic-selection-list li { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 10px; align-items: center; min-height: 51px; padding: 8px 10px; border-bottom: 1px solid #343434; }.topic-selection-list li:last-child { border-bottom: 0; }.topic-selection-list li:hover, .topic-selection-list li.is-selected { background: rgba(74, 141, 116, .16); }
 .topic-selection-list input { width: 15px; height: 15px; margin: 0; accent-color: #76cbae; cursor: pointer; }
@@ -191,7 +187,7 @@ button { font: inherit; }
 .topic-selection-topic-name, .topic-selection-topic-type { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }.topic-selection-topic-name { color: #dedede; font-family: Consolas, monospace; font-size: 10px; }.topic-selection-topic-type { color: #8b8b8b; font-size: 9px; }
 .topic-selection-empty { margin: 0; padding: 18px; color: #999; font-size: 11px; text-align: center; border: 1px solid #3b3b3b; border-radius: 4px; background: #1e1e1e; }
 .topic-selection-dialog-actions { display: flex; justify-content: flex-end; gap: 8px; padding: 14px 22px; border-top: 1px solid #3b3b3b; }
-.topic-selection-cancel-button, .topic-selection-confirm-button { min-height: 30px; padding: 0 12px; font-size: 11px; border-radius: 3px; cursor: pointer; }.topic-selection-cancel-button { color: #c4c4c4; border: 1px solid #515151; background: #303030; }.topic-selection-cancel-button:hover { color: #fff; background: #3c3c3c; }.topic-selection-confirm-button { color: #12362a; font-weight: 650; border: 1px solid #8ee0c1; background: #86dabc; }.topic-selection-confirm-button:hover { background: #a0ebcd; }
+.topic-selection-cancel-button, .topic-selection-confirm-button { min-height: 30px; padding: 0 12px; font-size: 11px; border-radius: 3px; cursor: pointer; }.topic-selection-cancel-button { color: #c4c4c4; border: 1px solid #515151; background: #303030; }.topic-selection-cancel-button:hover { color: #fff; background: #3c3c3c; }.topic-selection-confirm-button { color: #12362a; font-weight: 650; border: 1px solid #8ee0c1; background: #86dabc; }.topic-selection-confirm-button:hover:not(:disabled) { background: #a0ebcd; }.topic-selection-confirm-button:disabled { color: #777; border-color: #505050; background: #363636; cursor: not-allowed; }
 .topic-selection-dialog button:focus-visible, .topic-selection-list input:focus-visible { outline: 2px solid #b5f7de; outline-offset: 2px; }
 
 .status-bar { display: flex; align-items: center; justify-content: space-between; padding: 0 8px; color: #e1f5ee; background: #176b55; font-family: Consolas, monospace; font-size: 9px; }

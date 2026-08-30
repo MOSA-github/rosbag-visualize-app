@@ -3,7 +3,7 @@ import Icon from '../../../components/ui/Icon';
 
 function TopicSelectionDialog({ fileName, onCancel, onConfirm, topics }) {
   const dialogRef = useRef(null);
-  const [selectedTopicIds, setSelectedTopicIds] = useState([]);
+  const [selectedTopicId, setSelectedTopicId] = useState(null);
 
   useEffect(() => {
     const dialog = dialogRef.current;
@@ -19,33 +19,18 @@ function TopicSelectionDialog({ fileName, onCancel, onConfirm, topics }) {
     };
   }, []);
 
-  function toggleTopic(topicId) {
-    setSelectedTopicIds((currentIds) => (
-      currentIds.includes(topicId)
-        ? currentIds.filter((currentId) => currentId !== topicId)
-        : [...currentIds, topicId]
-    ));
-  }
-
-  function selectAllTopics() {
-    setSelectedTopicIds(topics.map((topic) => topic.id));
-  }
-
-  function clearTopics() {
-    setSelectedTopicIds([]);
-  }
-
   function handleSubmit(event) {
     event.preventDefault();
-    onConfirm(selectedTopicIds);
+
+    if (selectedTopicId !== null) {
+      onConfirm([selectedTopicId]);
+    }
   }
 
   function handleCancel(event) {
     event.preventDefault();
     onCancel();
   }
-
-  const hasSelectedAllTopics = topics.length > 0 && selectedTopicIds.length === topics.length;
 
   return (
     <dialog
@@ -61,7 +46,7 @@ function TopicSelectionDialog({ fileName, onCancel, onConfirm, topics }) {
             <p className="topic-selection-dialog-eyebrow">ROSBAG TOPICS</p>
             <h2 id="topic-selection-title">表示するトピックを選択</h2>
             <p id="topic-selection-description">
-              {fileName} に含まれるトピックから、可視化へ追加するものを選択してください。
+              {fileName} に含まれるトピックから、可視化へ追加する1つを選択してください。
             </p>
           </div>
           <button
@@ -75,43 +60,20 @@ function TopicSelectionDialog({ fileName, onCancel, onConfirm, topics }) {
         </header>
 
         <div className="topic-selection-dialog-body">
-          <div className="topic-selection-dialog-toolbar">
-            <span className="topic-selection-count" aria-live="polite">
-              {selectedTopicIds.length} / {topics.length} 件を選択中
-            </span>
-            <div className="topic-selection-bulk-actions">
-              <button
-                type="button"
-                className="topic-selection-text-button"
-                disabled={hasSelectedAllTopics}
-                onClick={selectAllTopics}
-              >
-                すべて選択
-              </button>
-              <button
-                type="button"
-                className="topic-selection-text-button"
-                disabled={selectedTopicIds.length === 0}
-                onClick={clearTopics}
-              >
-                選択解除
-              </button>
-            </div>
-          </div>
-
           {topics.length > 0 ? (
-            <ul className="topic-selection-list" aria-label="表示するrosbagトピック">
+            <ul className="topic-selection-list" aria-label="表示するrosbagトピック" role="radiogroup">
               {topics.map((topic) => {
                 const inputId = `topic-selection-${topic.id}`;
-                const isSelected = selectedTopicIds.includes(topic.id);
+                const isSelected = selectedTopicId === topic.id;
 
                 return (
                   <li key={topic.id} className={isSelected ? 'is-selected' : ''}>
                     <input
                       id={inputId}
-                      type="checkbox"
+                      type="radio"
+                      name="topic-selection"
                       checked={isSelected}
-                      onChange={() => toggleTopic(topic.id)}
+                      onChange={() => setSelectedTopicId(topic.id)}
                     />
                     <label htmlFor={inputId}>
                       <span className="topic-selection-topic-name" title={topic.name}>{topic.name}</span>
@@ -130,7 +92,11 @@ function TopicSelectionDialog({ fileName, onCancel, onConfirm, topics }) {
           <button type="button" className="topic-selection-cancel-button" onClick={onCancel}>
             キャンセル
           </button>
-          <button type="submit" className="topic-selection-confirm-button">
+          <button
+            type="submit"
+            className="topic-selection-confirm-button"
+            disabled={selectedTopicId === null}
+          >
             選択を反映
           </button>
         </footer>
