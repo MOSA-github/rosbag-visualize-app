@@ -1,6 +1,7 @@
 const path = require('node:path');
 const { app, BrowserWindow, ipcMain } = require('electron');
 const { selectRosbagFile } = require('./application/selectRosbagFile');
+const { loadRosbagTopicMessages } = require('./application/loadRosbagTopicMessages');
 
 /**
  * Create the initial application window.
@@ -42,6 +43,10 @@ function registerIpcHandlers() {
     const parentWindow = BrowserWindow.fromWebContents(event.sender);
     return selectRosbagFile(parentWindow);
   });
+
+  ipcMain.handle('rosbag:get-topic-messages', (_event, filePath, topicId, options) => (
+    loadRosbagTopicMessages(filePath, topicId, options)
+  ));
 }
 
 app.whenReady().then(() => {

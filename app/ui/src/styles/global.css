@@ -136,13 +136,14 @@ button { font: inherit; }
 
 .tab-close-button, .add-tab-button { display: grid; width: 24px; height: 24px; flex: 0 0 auto; place-items: center; color: #999; border: 0; border-radius: 3px; background: transparent; }.tab-close-button:hover, .add-tab-button:hover { color: #fff; background: #3b3b3b; }.add-tab-button { width: 34px; margin-right: 2px; align-self: center; }
 
-.editor-content { min-height: 0; background: #1e1e1e; }
+.editor-content { min-height: 0; overflow: auto; background: #1e1e1e; }
 
 .welcome-page { display: grid; min-height: 100%; place-items: center; padding: 32px; }
 
 .empty-editor-page { display: grid; min-height: 100%; align-content: center; justify-items: center; gap: 8px; padding: 32px; color: #a3a3a3; text-align: center; }.empty-editor-page strong { color: #d2d2d2; font-size: 14px; font-weight: 500; }.empty-editor-page span { font-size: 11px; }
 
 .welcome-card { display: grid; justify-items: center; max-width: 420px; text-align: center; }
+.welcome-card.has-selected-rosbag { width: min(100%, 980px); max-width: 980px; }
 
 .welcome-icon { display: grid; width: 54px; height: 54px; margin-bottom: 19px; place-items: center; color: #8ee0c1; border: 1px solid #3e826d; border-radius: 12px; background: linear-gradient(145deg, rgba(90, 192, 154, .2), rgba(48, 92, 102, .18)); }
 
@@ -165,6 +166,25 @@ button { font: inherit; }
 .visualization-topic-content strong { color: #dedede; font-family: Consolas, monospace; font-size: 10px; font-weight: 500; }
 .visualization-topic-content span { color: #858585; font-size: 9px; }
 .visualization-topic-state { color: #8ee0c1; font-size: 9px; white-space: nowrap; }
+
+.raw-topic-data-view { width: 100%; margin-top: 14px; padding: 13px; color: #d3d3d3; text-align: left; border: 1px solid #3b3b3b; border-radius: 4px; background: #242425; }
+.raw-topic-data-view > h2 { margin: 0 0 10px; color: #dedede; font-size: 11px; font-weight: 600; }
+.raw-topic-data-hint { margin: -4px 0 10px !important; color: #8e8e8e !important; font-size: 10px !important; }
+.raw-topic-data-list { display: grid; gap: 10px; }
+.raw-topic-data-topic { overflow: hidden; border: 1px solid #3a3a3a; border-radius: 4px; background: #1e1e1e; }
+.raw-topic-data-topic-header { display: grid; gap: 8px; padding: 10px; border-bottom: 1px solid #363636; background: #272728; }
+.raw-topic-data-topic-header h3 { margin: 0; overflow: hidden; color: #a6e1ca; font-family: Consolas, monospace; font-size: 11px; font-weight: 600; text-overflow: ellipsis; white-space: nowrap; }
+.raw-topic-data-metadata { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 7px; margin: 0; }
+.raw-topic-data-metadata div, .raw-topic-data-message-metadata div { min-width: 0; }
+.raw-topic-data-metadata dt, .raw-topic-data-message-metadata dt { margin-bottom: 2px; color: #858585; font-size: 9px; }
+.raw-topic-data-metadata dd, .raw-topic-data-message-metadata dd { margin: 0; overflow: hidden; color: #cacaca; font-family: Consolas, monospace; font-size: 10px; text-overflow: ellipsis; white-space: nowrap; }
+.raw-topic-data-messages { display: grid; gap: 8px; margin: 0; padding: 10px; list-style: none; }
+.raw-topic-data-message { min-width: 0; }
+.raw-topic-data-message-metadata { display: flex; gap: 18px; margin: 0 0 7px; }
+.raw-topic-data-json { max-height: 310px; margin: 0; padding: 10px; overflow: auto; color: #c8e8dc; font-family: Consolas, "Courier New", monospace; font-size: 10px; line-height: 1.55; tab-size: 2; white-space: pre; border: 1px solid #343434; border-radius: 3px; background: #151515; scrollbar-color: #515151 #151515; }
+.raw-topic-data-status, .raw-topic-data-empty, .raw-topic-data-error { margin: 0; padding: 11px; font-size: 10px; }
+.raw-topic-data-status, .raw-topic-data-empty { color: #9b9b9b; }
+.raw-topic-data-error { color: #f0aaaa; background: rgba(156, 58, 58, .12); }
 
 .button { border: 0; cursor: pointer; }
 
@@ -198,6 +218,7 @@ button { font: inherit; }
 
 @media (max-width: 620px) {
   .sidebar { width: 185px; flex-basis: 185px; }.sidebar-resize-handle { display: none; }.app-header-title { display: none; }.welcome-page { padding: 24px; }
+  .raw-topic-data-metadata { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 480px) {
