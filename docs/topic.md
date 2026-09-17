@@ -83,3 +83,6 @@ dxl_4
 
 
 ・/camera_info
+
+・/initialpose, /image_raw/compressedDepth, /goal_pose, /clicked_point, /events/write_split
+これらはサンプルにデータなし.
