@@ -1,12 +1,20 @@
 import { useRef, useState } from 'react';
 import AppShell from './components/layout/AppShell';
 import { useEditorTabs } from './features/editorTabs/model/useEditorTabs';
+import { JOINT_STATE_MESSAGE_TYPE } from './features/rosbag/model/jointStateSeries.mjs';
 import TopicSelectionDialog from './features/rosbag/components/TopicSelectionDialog';
 import EmptyEditorPage from './pages/EmptyEditorPage/EmptyEditorPage';
 import WelcomePage from './pages/WelcomePage/WelcomePage';
 
 const initialTimeRange = { start: 0, end: 12 };
 const rawMessageOptions = { limit: 3 };
+const jointStateMessageOptions = { limit: 100 };
+
+function getTopicMessageOptions(topicType) {
+  return topicType === JOINT_STATE_MESSAGE_TYPE
+    ? jointStateMessageOptions
+    : rawMessageOptions;
+}
 
 function getTopicRequestKey(filePath, topicId) {
   return `${filePath}\u0000${topicId}`;
@@ -83,7 +91,7 @@ function App() {
     });
   }
 
-  async function loadTopicData(filePath, topicId) {
+  async function loadTopicData(filePath, topicId, topicType) {
     const getTopicMessages = window.rosbagApi?.getTopicMessages;
 
     if (!getTopicMessages) {
@@ -108,7 +116,7 @@ function App() {
 
     try {
       // 巨大な画像データもあるため、まずは先頭1メッセージだけを表示する。
-      const result = await getTopicMessages(filePath, topicId, rawMessageOptions);
+      const result = await getTopicMessages(filePath, topicId, getTopicMessageOptions(topicType));
 
       if (!result?.topic || !Array.isArray(result.messages)) {
         throw new Error('トピックデータの形式が不正です。');
@@ -150,8 +158,10 @@ function App() {
     setSelectedTopicIds(topicIds);
     setHasSelectedRosbag(true);
     setPendingRosbag(null);
-    topicIds.forEach((topicId) => {
-      void loadTopicData(nextRosbagFile.path, topicId);
+    pendingRosbag.topics
+      .filter((topic) => topicIds.includes(topic.id))
+      .forEach((topic) => {
+        void loadTopicData(nextRosbagFile.path, topic.id, topic.type);
     });
   }
 
@@ -173,7 +183,8 @@ function App() {
     setSelectedTopicIds((currentTopicIds) => [...currentTopicIds, topicId]);
 
     if (selectedRosbagFile?.path) {
-      void loadTopicData(selectedRosbagFile.path, topicId);
+      const topic = topics.find((currentTopic) => currentTopic.id === topicId);
+      void loadTopicData(selectedRosbagFile.path, topicId, topic?.type);
     }
   }
 

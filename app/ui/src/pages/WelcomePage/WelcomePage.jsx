@@ -1,4 +1,5 @@
 import Icon from '../../components/ui/Icon';
+import JointStateCharts from '../../features/rosbag/components/JointStateCharts';
 import OpenRosbagButton from '../../features/rosbag/components/OpenRosbagButton';
 import RawTopicDataView from '../../features/rosbag/components/RawTopicDataView';
 
@@ -47,6 +48,10 @@ function WelcomePage({
                 <p className="visualization-empty">サイドバーからトピックを選択してください。</p>
               )}
             </section>
+            <JointStateCharts
+              selectedTopics={selectedTopics}
+              topicDataById={topicDataById}
+            />
             <RawTopicDataView
               selectedTopics={selectedTopics}
               topicDataById={topicDataById}

@@ -1,4 +1,5 @@
 const BYTE_PREVIEW_LENGTH = 32;
+const DISPLAYED_MESSAGE_COUNT = 1;
 
 function getTopicData(topicDataById, topicId) {
   if (topicDataById instanceof Map) {
@@ -100,6 +101,7 @@ function RawTopicDataView({ selectedTopics = [], topicDataById = {} }) {
           const result = topicData?.result ?? topicData;
           const topic = result?.topic ?? selectedTopic;
           const messages = Array.isArray(result?.messages) ? result.messages : [];
+          const displayedMessages = messages.slice(0, DISPLAYED_MESSAGE_COUNT);
           const topicHeadingId = `raw-topic-data-topic-${selectedTopic.id}`;
 
           return (
@@ -125,7 +127,7 @@ function RawTopicDataView({ selectedTopics = [], topicDataById = {} }) {
 
               {status === 'ready' && messages.length > 0 && (
                 <ol className="raw-topic-data-messages">
-                  {messages.map((message, index) => (
+                  {displayedMessages.map((message, index) => (
                     <li key={message.id ?? index} className="raw-topic-data-message">
                       <dl className="raw-topic-data-message-metadata">
                         <div>
